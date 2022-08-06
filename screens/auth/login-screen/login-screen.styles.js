@@ -4,14 +4,8 @@ export default StyleSheet.create({
   screen: {
     height: '100%',
     alignItems: 'center',
-  },
-  title: {
-    marginTop: 100,
-    fontSize: 42,
-    fontWeight: '600',
-  },
-  container: {
-    marginTop: 80,
+    backgroundColor: 'white',
+    justifyContent: 'center',
   },
   label: {
     marginBottom: 15,
@@ -38,7 +32,7 @@ export default StyleSheet.create({
   },
   buttonContainer: {
     alignItems: 'center',
-    marginTop: 120,
+    marginTop: 80,
   },
   button: {
     width: 250,
@@ -47,15 +41,6 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,
-  },
-  buttonDisabled: {
-    width: 250,
-    height: 60,
-    backgroundColor: 'gray',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 10,
-    opacity: 0.6,
   },
   buttonTitle: {
     fontSize: 22,

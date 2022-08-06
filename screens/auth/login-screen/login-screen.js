@@ -24,7 +24,7 @@ const LoginScreen = memo(() => {
   const [mail, setMail] = useState('');
   const [pass, setPass] = useState('');
   const [mailError, setMailError] = useState('');
-  const [allValid, setAllValid] = useState(false);
+  const [passError, setPassError] = useState('');
 
   const { setToken } = useContext(AuthContext);
 
@@ -33,17 +33,8 @@ const LoginScreen = memo(() => {
     return reg.test(text);
   }, []);
 
-  useEffect(() => {
-    const isValidMail = validateMail(mail);
-    !isValidMail ? setMailError('Please enter valid email') : setMailError('');
-  }, [mail]);
-
-  useEffect(() => {
-    const isValidMail = validateMail(mail);
-    if (isValidMail && pass.length >= 8) {
-      setAllValid(true);
-    }
-  }, [mail, pass]);
+  const isValidMail = validateMail(mail);
+  const isValidPass = pass.length >= 8;
 
   const addTokenHandler = useCallback(async () => {
     try {
@@ -54,10 +45,27 @@ const LoginScreen = memo(() => {
     }
   }, []);
 
+  const buttonHandler = () => {
+    if (!isValidMail) {
+      setMailError('Please enter valid email');
+    } else {
+      setMailError('');
+    }
+    if (!isValidPass) {
+      setPassError('Password must be at least 8 characters');
+    } else {
+      setPassError('');
+    }
+
+    if (isValidMail && isValidPass) {
+      addTokenHandler();
+    }
+    return;
+  };
+
   return (
     <SafeAreaView style={styles.screen}>
-      <Text style={styles.title}>Wellcome!</Text>
-      <View style={styles.container}>
+      <View>
         <KeyboardAvoidingView>
           <Text style={styles.label}>Email</Text>
           <TextInput
@@ -84,20 +92,16 @@ const LoginScreen = memo(() => {
             secureTextEntry
           />
           <View style={styles.errorBox}>
-            {pass.length < 8 ? (
-              <Text style={styles.errorText}>Password must be at least 8 characters long</Text>
-            ) : null}
+            <Text style={styles.errorText}>{passError}</Text>
           </View>
         </KeyboardAvoidingView>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={allValid ? styles.button : styles.buttonDisabled}
-            disabled={!allValid}
-            onPress={addTokenHandler}
-          >
-            <Text style={styles.buttonTitle}>LOGIN</Text>
-          </TouchableOpacity>
-        </View>
+        {mail.length > 0 && pass.length > 0 ? (
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity style={styles.button} onPress={buttonHandler}>
+              <Text style={styles.buttonTitle}>LOGIN</Text>
+            </TouchableOpacity>
+          </View>
+        ) : null}
       </View>
     </SafeAreaView>
   );
