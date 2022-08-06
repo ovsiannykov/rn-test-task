@@ -8,9 +8,7 @@ const HomeScreen = memo(() => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
     fetchingData();
-    setLoading(false);
   }, [fetchingData]);
 
   const fetchingData = useCallback(async () => {
