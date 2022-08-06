@@ -1,14 +1,14 @@
-import { View, Text, TouchableOpacity } from 'react-native';
-import React from 'react';
+import React, { memo } from 'react';
+import { TouchableOpacity } from 'react-native';
 
 import LogoutIcon from '../../assets/icons/logout.svg';
 
-const ExitButton = ({ onPress }) => {
+const ExitButton = memo(({ onPress }) => {
   return (
     <TouchableOpacity onPress={onPress} style={{ marginRight: 16 }}>
       <LogoutIcon width={24} height={24} stroke="black" />
     </TouchableOpacity>
   );
-};
+});
 
 export default ExitButton;

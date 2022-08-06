@@ -1,4 +1,4 @@
-import React, { memo, useState, useEffect, useCallback, useContext } from 'react';
+import React, { memo, useState, useCallback, useContext } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   View,
@@ -43,7 +43,7 @@ const LoginScreen = memo(() => {
     } catch (e) {
       console.log(e);
     }
-  }, []);
+  }, [setToken]);
 
   const buttonHandler = () => {
     if (!isValidMail) {
