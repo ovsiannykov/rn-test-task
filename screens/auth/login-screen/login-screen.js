@@ -1,5 +1,5 @@
-import React, { memo, useState, useEffect, useCallback } from 'react';
-
+import React, { memo, useState, useEffect, useCallback, useContext } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   View,
   Text,
@@ -8,7 +8,9 @@ import {
   TextInput,
   KeyboardAvoidingView,
 } from 'react-native';
+
 import styles from './login-screen.styles';
+import AuthContext from '../../../context/authContext';
 
 /*
 ==========================================================================================
@@ -23,6 +25,8 @@ const LoginScreen = memo(() => {
   const [pass, setPass] = useState('');
   const [mailError, setMailError] = useState('');
   const [allValid, setAllValid] = useState(false);
+
+  const { setToken } = useContext(AuthContext);
 
   const validateMail = useCallback(text => {
     const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
@@ -40,6 +44,15 @@ const LoginScreen = memo(() => {
       setAllValid(true);
     }
   }, [mail, pass]);
+
+  const addTokenHandler = useCallback(async () => {
+    try {
+      await AsyncStorage.setItem('@token', 'token_expale');
+      await setToken('token_expale');
+    } catch (e) {
+      console.log(e);
+    }
+  }, []);
 
   return (
     <SafeAreaView style={styles.screen}>
@@ -80,6 +93,7 @@ const LoginScreen = memo(() => {
           <TouchableOpacity
             style={allValid ? styles.button : styles.buttonDisabled}
             disabled={!allValid}
+            onPress={addTokenHandler}
           >
             <Text style={styles.buttonTitle}>LOGIN</Text>
           </TouchableOpacity>
