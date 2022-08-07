@@ -6,9 +6,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { postsActions } from '../../../store/posts/posts-actions';
 import styles from './home-screen.styles';
 import PostItem from '../../../components/post-item/post-item';
+import CommentsModal from '../../../components/comments-modal/comments-modal';
 
 const HomeScreen = memo(() => {
   const [loading, setLoading] = useState(false);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [selectPostId, setSelectPostId] = useState<string | number>('');
+
   const dispatch = useDispatch();
   const posts = useSelector(state => state?.postsReducer?.posts);
 
@@ -42,11 +46,32 @@ const HomeScreen = memo(() => {
     [fetchingData],
   );
 
+  const moddalError = useCallback((title: string) => {
+    Snackbar.show({
+      text: `${title}`,
+      duration: Snackbar.LENGTH_LONG,
+    });
+  }, []);
+
   useEffect(() => {
     fetchingData();
   }, [fetchingData]);
 
-  const renderItem = ({ item }) => <PostItem title={item.title} body={item.body} />;
+  const toggleModal = useCallback(() => {
+    setModalVisible(!isModalVisible);
+  }, [isModalVisible]);
+
+  const openModal = useCallback(
+    async (id: string | undefined) => {
+      await setSelectPostId(id);
+      toggleModal();
+    },
+    [setSelectPostId, toggleModal],
+  );
+
+  const renderItem = ({ item }) => (
+    <PostItem title={item.title} body={item.body} onPress={() => openModal(item.id)} />
+  );
 
   if (loading) {
     return (
@@ -70,6 +95,13 @@ const HomeScreen = memo(() => {
           <Text>Sorry, failed to load posts</Text>
         </View>
       )}
+      <CommentsModal
+        isModal={isModalVisible}
+        chageModal={toggleModal}
+        id={selectPostId}
+        changeId={setSelectPostId}
+        isError={moddalError}
+      />
     </View>
   );
 });

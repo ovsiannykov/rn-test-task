@@ -1,12 +1,12 @@
 import React, { memo } from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { GestureResponderEvent, Text, TouchableOpacity } from 'react-native';
 
 import styles from './post-item.styles';
 
 type PostItemProps = {
   title: string;
   body: string;
-  onPress?: () => void;
+  onPress?: ((event: GestureResponderEvent) => void) | undefined;
 };
 
 const PostItem: React.FC<PostItemProps> = memo(({ title, body, onPress }) => {
