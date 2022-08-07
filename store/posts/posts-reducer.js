@@ -1,7 +1,7 @@
 import { postsActionTypes } from './posts-actions';
 
 const initialState = {
-  posts: [],
+  posts: null,
 };
 
 const postsReducer = (state = initialState, action) => {

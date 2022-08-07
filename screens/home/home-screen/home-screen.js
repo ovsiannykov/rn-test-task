@@ -1,11 +1,15 @@
 import React, { memo, useEffect, useState, useCallback } from 'react';
 import Snackbar from 'react-native-snackbar';
 import { View, Text, ActivityIndicator } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
+import { postsActions } from '../../../store/posts/posts-actions';
 
 import styles from './home-screen.styles';
 
 const HomeScreen = memo(() => {
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const posts = useSelector(state => state?.postsReducer?.posts);
 
   useEffect(() => {
     fetchingData();
@@ -15,12 +19,14 @@ const HomeScreen = memo(() => {
     setLoading(true);
     await fetch('https://jsonplaceholder.typicode.com/posts')
       .then(response => response.json())
-      .then(json => console.log(json))
+      .then(async json => {
+        await dispatch(postsActions.setPosts(json));
+      })
       .catch(error => {
         snakHandler(error);
       });
     setLoading(false);
-  }, [snakHandler]);
+  }, [dispatch, snakHandler]);
 
   const snakHandler = useCallback(
     title => {
