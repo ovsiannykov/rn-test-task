@@ -7,4 +7,9 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  screen: {
+    backgroundColor: 'white',
+    height: '100%',
+    paddingHorizontal: 16,
+  },
 });
