@@ -35,6 +35,7 @@ const Root = memo(() => {
       </View>
     );
   }
+
   return (
     <AuthContext.Provider value={{ token, setToken }}>
       <NavigationContainer>{token ? <HomeNavigation /> : <AuthNavigation />}</NavigationContainer>

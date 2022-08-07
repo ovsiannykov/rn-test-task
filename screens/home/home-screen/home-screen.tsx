@@ -8,6 +8,13 @@ import styles from './home-screen.styles';
 import PostItem from '../../../components/post-item/post-item';
 import CommentsModal from '../../../components/comments-modal/comments-modal';
 
+/* 
+=================
+По поводу получения данных:
+Я знаю, что не совсем красиво и правильно делать запрос прямо в компоненте,
+но в ТЗ не было указано про Saga или Thunk, именно там я обычно делаю запросы
+*/
+
 const HomeScreen = memo(() => {
   const [loading, setLoading] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
